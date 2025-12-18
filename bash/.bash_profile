@@ -2,6 +2,9 @@
 
 set -o vi
 
+# For MacOS
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # Source
 [ -f ~/.path.bash ] && source ~/.path.bash
 [ -f ~/.custom.bash ] && source ~/.custom.bash
@@ -11,6 +14,7 @@ set -o vi
 export PATH=$PATH:/home/$USER/.local/bin
 export PATH=$PATH:/home/$USER/.npm-global/bin
 export PATH=$PATH:/home/$USER/AppImages
+export PATH=$PATH:/opt/homebrew/bin
 export HISTCONTROL=ignorespace
 
 # include .bashrc if it exists
@@ -71,3 +75,8 @@ function git-recommit-deleted {
     xargs -l bash -c 'git log -n 1 --pretty=format:"%h" -- $0 && echo "" && echo $0' |
     xargs -l -n 2 bash -c 'git add -- $1 && git commit --fixup=$0'
 }
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
