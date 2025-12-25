@@ -22,11 +22,59 @@ vim.g.maplocalleader = "\\"
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
-    { 'nvim-telescope/telescope.nvim', tag = '0.1.8', dependencies = { 'nvim-lua/plenary.nvim' } },
+    { "nvim-telescope/telescope.nvim", tag = "0.1.8", dependencies = { "nvim-lua/plenary.nvim" } },
     { "mason-org/mason.nvim", opts = {} },
     { "nvim-tree/nvim-web-devicons", opts = {} },
     { "saghen/blink.cmp", opts = {}, version = "1.4.1" },
     { "folke/trouble.nvim", opts = {} },
+    {
+      "folke/flash.nvim",
+      event = "VeryLazy",
+      ---@type Flash.Config
+      opts = {},
+      keys = {
+        {
+          "s",
+          mode = { "n", "x", "o" },
+          function()
+            require("flash").jump()
+          end,
+          desc = "Flash",
+        },
+        {
+          "S",
+          mode = { "n", "x", "o" },
+          function()
+            require("flash").treesitter()
+          end,
+          desc = "Flash Treesitter",
+        },
+        {
+          "r",
+          mode = "o",
+          function()
+            require("flash").remote()
+          end,
+          desc = "Remote Flash",
+        },
+        {
+          "R",
+          mode = { "o", "x" },
+          function()
+            require("flash").treesitter_search()
+          end,
+          desc = "Treesitter Search",
+        },
+        {
+          "<c-s>",
+          mode = { "c" },
+          function()
+            require("flash").toggle()
+          end,
+          desc = "Toggle Flash Search",
+        },
+      },
+    },
     {
       "nvim-treesitter/nvim-treesitter",
       branch = "master",
@@ -70,11 +118,11 @@ require("lazy").setup({
       config = function()
         require("conform").setup({
           formatters_by_ft = {
+            lua = { "stylua" },
             typescript = { "prettier" },
             javascript = { "prettier" },
             css = { "prettier" },
             html = { "prettier" },
-            lua = { "stylua" },
           },
         })
       end,
@@ -123,10 +171,12 @@ require("lazy").setup({
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', function() builtin.find_files({ hidden=true }) end, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('v', '<leader>f', 'y:Telescope grep_string search=<C-R>"<CR>', { desc = 'Telescope live grep selected' })
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader>ff", function()
+  builtin.find_files({ hidden = true })
+end, { desc = "Telescope find files" })
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+vim.keymap.set("v", "<leader>f", 'y:Telescope grep_string search=<C-R>"<CR>', { desc = "Telescope live grep selected" })
 
 -- Mapping
 vim.keymap.set("i", "<esc>", "")
@@ -135,10 +185,18 @@ vim.keymap.set("i", "<D-i>", "<esc>")
 vim.keymap.set("n", ";", ":")
 vim.keymap.set("n", "<leader>l", ":Lazy<cr>")
 vim.keymap.set("n", "<leader>m", ":Mason<cr>")
-vim.keymap.set("n", "<leader><leader>", function() require("conform").format() end)
-vim.keymap.set("n", "gd", function() vim.lsp.buf.implementation() end)
-vim.keymap.set("n", "gt", function() vim.lsp.buf.type_definition() end)
-vim.keymap.set("n", "gh", function() vim.lsp.buf.hover() end)
+vim.keymap.set("n", "<leader><leader>", function()
+  require("conform").format()
+end)
+vim.keymap.set("n", "gd", function()
+  vim.lsp.buf.implementation()
+end)
+vim.keymap.set("n", "gt", function()
+  vim.lsp.buf.type_definition()
+end)
+vim.keymap.set("n", "gh", function()
+  vim.lsp.buf.hover()
+end)
 
 vim.diagnostic.config({ underline = true, virtual_text = true, signs = false, severity_sort = true })
 
