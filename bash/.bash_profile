@@ -15,6 +15,7 @@ export PATH=$PATH:/home/$USER/.local/bin
 export PATH=$PATH:/home/$USER/.npm-global/bin
 export PATH=$PATH:/home/$USER/AppImages
 export PATH=$PATH:/opt/homebrew/bin
+export PATH=$PATH:/usr/local/bin
 export HISTCONTROL=ignorespace
 
 # include .bashrc if it exists
